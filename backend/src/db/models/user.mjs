@@ -18,9 +18,16 @@ const userschema = new mongoose.Schema({
             message: props => `${props.value} não é um e-mail válido!`
         }
     },
-    password:{
+    password: {
         type: String,
-        required: true
+        required: true,
+        minlength: 8,
+        validate: {
+            validator: function(value) {
+                return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(value);
+            },
+            message: props => `A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula e um número.`
+        }
     },
     createdAt:{
         type: Date,
