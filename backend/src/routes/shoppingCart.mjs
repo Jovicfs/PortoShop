@@ -4,7 +4,6 @@ import User from '../db/models/user.mjs';
 import Product from '../db/models/product.mjs';
 import authMiddleware from '../middleware/authMiddleware.mjs';
 const router = express.Router();
-
 router.use(authMiddleware);
 
 

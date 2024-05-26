@@ -42,9 +42,27 @@ export const getProducts = async () => {
     }
 };
 
-export const addProduct = async (name, description, price, category, imageUrl) => {
+export const addProduct = async (productData) => {
     try {
-        const response = await api.post('/products', { name, description, price, category, imageUrl });
+        const response = await api.post('/products', productData);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error('Erro de conexão');
+    }
+};
+
+export const deleteProduct = async (productId) => {
+    try {
+        const response = await api.delete(`/products/${productId}`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error('Erro de conexão');
+    }
+};
+
+export const updateProduct = async (productId, updatedProductData) => {
+    try {
+        const response = await api.put(`/products/${productId}`, updatedProductData);
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : new Error('Erro de conexão');
