@@ -28,11 +28,14 @@ function App() {
         <ul>
           {products.map(product => (
             <li key={product._id}>
+           <img src={product.imgURL} alt={product.name} />
               <h3>{product.name}</h3>
               <p>{product.description}</p>
               <p>Preço: R$ {product.price}</p>
             </li>
           ))}
+
+    
         </ul>
         <a
           className="App-link"
