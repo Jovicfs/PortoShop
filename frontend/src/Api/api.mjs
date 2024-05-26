@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api', // A URL base da sua API
+    baseURL: 'http://localhost:8080/api',
 });
 
 // Funções de autenticação
