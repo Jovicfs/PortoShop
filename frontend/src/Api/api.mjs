@@ -6,9 +6,9 @@ const api = axios.create({
 });
 
 // Funções de autenticação
-export const register = async (username, email, password) => {
+export const register = async (userData) => {
     try {
-        const response = await api.post('/auth/register', { username, email, password });
+        const response = await api.post('/auth/register', userData);
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : new Error('Erro de conexão');

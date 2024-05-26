@@ -9,20 +9,36 @@ const router = Router();
 router.post('/register', async (req, res) => {
     const { username, password, email } = req.body;
     try {
-        const checkUser = await User.findOne({ $or: [{ username }, { email }] });
-        if (checkUser) {
-            return res.status(400).json({ message: 'Nome de usuário ou email já existe!' });
+        // Validação de entrada
+        if (!username || !password || !email) {
+            return res.status(400).json({ message: 'Por favor, forneça nome de usuário, senha e email.' });
         }
+
+        // Verifica se o nome de usuário já está em uso
+        let existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Nome de usuário já está em uso.' });
+        }
+
+        // Verifica se o email já está em uso
+        existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email já está em uso.' });
+        }
+
+        // Hash da senha
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Cria um novo usuário
         const newUser = new User({ username, password: hashedPassword, email });
         await newUser.save();
-        
+
         res.status(201).json({ message: 'Usuário registrado com sucesso!' });
     } catch (error) {
         res.status(500).json({ message: 'Erro ao registrar usuário', error: error.message });
     }
 });
+
 
 // Rota de Login
 router.post('/login', async (req, res) => {
