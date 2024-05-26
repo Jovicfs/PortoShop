@@ -2,10 +2,24 @@ import express from 'express';
 import ShoppingCart from '../db/models/cart.mjs';
 import User from '../db/models/user.mjs';
 import Product from '../db/models/product.mjs';
-
+import authMiddleware from '../middleware/authMiddleware.mjs';
 const router = express.Router();
 
+router.use(authMiddleware);
+
+
 // Adicionar um item ao carrinho
+
+router.get('/', async (req, res) => {
+  try {
+      const userId = req.userId; 
+      const cart = await ShoppingCart.findOne({ user: userId }).populate('items.product');
+      res.json(cart);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
 router.post('/add', async (req, res) => {
   const { userId, productId, quantity } = req.body;
 
