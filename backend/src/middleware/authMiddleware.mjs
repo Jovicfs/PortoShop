@@ -1,6 +1,12 @@
 import jwt from 'jsonwebtoken';
-
+import 'dotenv/config';
 const authMiddleware = (req, res, next) => {
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
+    if (isDevelopment) {
+        // Se estiver em ambiente de desenvolvimento, permita acesso sem autenticação
+        return next();
+    }
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
     if (!token) {
         return res.status(401).json({ message: 'Autenticação necessária' });

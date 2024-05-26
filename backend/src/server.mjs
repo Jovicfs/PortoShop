@@ -47,6 +47,10 @@ app.use('/', (req, res, next) => {
     try {
         const parsedURL = new URL(currentURL);
         const routPath = parsedURL.pathname;
+        if (process.env.NODE_ENV === 'development') {
+            // Se estiver em ambiente de desenvolvimento, permita acesso sem token
+            return next();
+        }
         if (routPath === '/') {
             if (!req.cookies || !req.cookies.token) {
                 return res.redirect('/login');
