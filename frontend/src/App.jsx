@@ -1,32 +1,17 @@
-import { useState, useEffect } from 'react';
-import { getProducts } from './Api/api.mjs';
+import React from 'react';
 import Header from './components/Header';
 import Register from './components/Register';
 import Login from './components/Login';
+import Products from './components/Products';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 export function App() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    // Função para carregar os produtos da API ao carregar o componente
-    const fetchProducts = async () => {
-      try     { 
-        const productsData = await getProducts();
-        setProducts(productsData);
-      } catch (error) {
-        console.error('Erro ao carregar produtos:', error.message);
-      }
-    };
-
-    fetchProducts(); // Chama a função para carregar os produtos da API
-  }, []); // Executa apenas uma vez, quando o componente é montado
-
-
   return (
     <Router>
       <div>
         <Header />
         <Routes>
+          <Route path="/" element={<ProductPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
@@ -35,4 +20,15 @@ export function App() {
   );
 }
 
-export default App
+function ProductPage() {
+  return (
+    <div className="bg-gray-100 dark:bg-gray-800 px-4 lg:px-6 py-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className='text-center text-2xl font-bold my-4  dark:text-white'>Product List</h1>
+        <Products />
+      </div>
+    </div>
+  );
+}
+
+export default App;

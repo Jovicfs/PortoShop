@@ -25,7 +25,7 @@ mongoose.connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => console.log('Conectado ao banco de dados'))
-  .catch((error) => console.error('A conexão com o banco de dados falhou:', error));
+    .catch((error) => console.error('A conexão com o banco de dados falhou:', error));
 
 const db = mongoose.connection;
 
